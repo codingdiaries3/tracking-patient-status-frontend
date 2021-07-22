@@ -7,6 +7,7 @@ function Patients() {
   const [queue, setQueue] = useState([]);
   useEffect(() => {
     socket.emit("queue", queue);
+    socket.on("clinicNewQueue", (newQueue) => setQueue(newQueue));
   }, [queue]);
   return (
     <>

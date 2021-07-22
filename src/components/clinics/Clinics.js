@@ -9,11 +9,15 @@ function Clinics() {
     socket.on("status", (msg) => {
       console.log("msg", msg);
     });
-    socket.on("updatedQueue", (patient) => {
+    socket.on("SignInQueueUpdate", (patient) => {
       setQueue(patient);
     });
   });
-
+  const deletePatient = (uuid) => {
+    const newQueue = queue.filter((patient) => patient.uuid !== uuid);
+    setQueue(newQueue);
+    socket.emit("clinicQueueUpdate", newQueue);
+  };
   return (
     <>
       <h1>Clinic</h1>
@@ -28,6 +32,7 @@ function Clinics() {
             <th>Bloodwork</th>
             <th>X-ray</th>
             <th>Referrals</th>
+            <th>Remove</th>
           </tr>
         </thead>
         <tbody>
@@ -50,10 +55,49 @@ function Clinics() {
                 <td>{fullName}</td>
                 <td>{arrTime}</td>
                 <td>{apptTime}</td>
-                <td>{doctor}</td>
-                <td>{bloodwork}</td>
-                <td>{xRay}</td>
-                <td>{referrals}</td>
+                <td>
+                  <select>
+                    <option defaultValue value="choose one">
+                      choose one
+                    </option>
+                    <option value="Dr.A">Dr.A</option>
+                    <option value="Dr.B">Dr.B</option>
+                  </select>
+                </td>
+                <td>
+                  <select>
+                    <option defaultValue value="choose one">
+                      choose one
+                    </option>
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                    <option value="done">done</option>
+                  </select>
+                </td>
+                <td>
+                  <select>
+                    <option defaultValue value="choose one">
+                      choose one
+                    </option>
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                    <option value="done">done</option>
+                  </select>
+                </td>
+                <td>
+                  <select>
+                    <option defaultValue value="choose one">
+                      choose one
+                    </option>
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                    <option value="done">done</option>
+                  </select>
+                </td>
+
+                <td>
+                  <button onClick={() => deletePatient(uuid)}>Remove</button>
+                </td>
               </tr>
             )
           )}
@@ -64,3 +108,20 @@ function Clinics() {
 }
 
 export default Clinics;
+
+// <Dropdown onSelect={handleSelect}>
+//   <label htmlFor="doctorName">choose one</label>
+//   <Dropdown.Toggle
+//     id="dropdown-button-dark-example1 doctorName"
+//     variant="secondary"
+//     as="select"
+//   ></Dropdown.Toggle>
+//   <Dropdown.Menu variant="dark">
+//     <Dropdown.Item value="Dr.A" as="option">
+//       Dr.A
+//     </Dropdown.Item>
+//     <Dropdown.Item value="Dr.B" as="option">
+//       Dr.B
+//     </Dropdown.Item>
+//   </Dropdown.Menu>
+// </Dropdown>;

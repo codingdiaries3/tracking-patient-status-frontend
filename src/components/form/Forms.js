@@ -43,6 +43,10 @@ function Forms({ queue }) {
       [e.target.name]: e.target.value,
       arrTime: `${hour}:${mins}`,
       uuid: uuidv4(),
+      doctor: "",
+      bloodwork: "",
+      xRay: "",
+      referrals: "",
     });
   };
 
